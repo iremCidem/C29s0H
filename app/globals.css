@@ -7,3 +7,20 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
+
+@layer utilities {
+
+  .bg-input-color {
+    background-color: #F4F4FF;
+  }
+
+  .bg-button-orange {
+    background-color: #EF6B4A;
+  }
+
+  .btn-border-color {
+    border: #6251DD;
+  }
+
+
+}
