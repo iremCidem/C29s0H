@@ -1,11 +1,11 @@
+import Header from '@/components/Header';
 import React from 'react';
 
 const Layout = ({ children }: any) => {
   return (
     <div>
-      <h1>header</h1>
+      <Header />
       <div>{children}</div>
-      <h3>footer</h3>
     </div>
   );
 };

@@ -27,7 +27,7 @@ export default function Register() {
         <Formik
           validationSchema={registerValidation}
           initialValues={{ email: '', name: '', password: '' }}
-          onSubmit={async (values) => {
+          onSubmit={(values) => {
             dispatch(registerUserAction({ values, navigateHome }));
           }}
         >
