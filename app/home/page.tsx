@@ -22,11 +22,10 @@ export default function Home() {
         {data.map((item: any) => (
           <div key={item.id} className=''>
             <CategoryHeader data={item.category}></CategoryHeader>
-            <div className='flex flex-wrap -mx-4'>
+
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
               {item.products.map((product: any) => (
-                <div key={product.id} className='w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 px-4 mb-4'>
-                  <BookInfoBox book={product} />
-                </div>
+                <BookInfoBox book={product} />
               ))}
             </div>
           </div>
