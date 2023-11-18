@@ -1,31 +1,65 @@
 import { AxiosResponse } from 'axios';
 import { put, takeLatest, call } from 'redux-saga/effects';
-import { bookCategoriesService, registerService, getBooksByCategoryIdService } from '@/services';
-import { registerUserAction, registerUserActionFail, registerUserActionSuccess } from './auth';
+import {
+  getBookCategoriesService,
+  getRegisterService,
+  getBooksByCategoryIdService,
+  userLoginService,
+} from '@/services';
+import {
+  registerUserAction,
+  registerUserActionFail,
+  registerUserActionSuccess,
+  loginUserAction,
+  loginUserActionFail,
+  loginUserActionSuccess,
+} from './auth';
 import { all, fork } from 'redux-saga/effects';
-import { setCookie } from '@/helpers';
 import { KEYS } from '@/constants';
 import {
-  bookCategoriesAction,
-  bookCategoriesActionFail,
-  bookCategoriesActionSuccess,
+  getBookCategoriesAction,
+  getBookCategoriesActionFail,
+  getBookCategoriesActionSuccess,
   getBooksByIdAction,
   getBooksByIdActionFail,
   getBooksByIdActionSuccess,
 } from './books';
 import { SagaIterator } from 'redux-saga';
+import { setLocalStorage } from '@/helpers';
+import { toast } from 'react-toastify';
 
 // Generator function
-function* registerUserSaga(action: any) {
+function* getRegisterUserSaga(action: any) {
   try {
     const { values, navigateHome } = action.payload;
     // You can also export the axios call as a function.
-    const response: AxiosResponse = yield call(() => registerService(values));
+    const response: AxiosResponse = yield call(() => getRegisterService(values));
     yield put(registerUserActionSuccess(response.data.action_register.token));
-    setCookie(KEYS.AUTH_TOKEN, response.data.action_register.token);
+    setLocalStorage(KEYS.AUTH_TOKEN, response.data.action_register.token);
     navigateHome();
   } catch (error) {
+    console.log(error);
     yield put(registerUserActionFail(error));
+  }
+}
+
+function* userLoginSaga(action: any) {
+  try {
+    const { values, navigateHome } = action.payload;
+    // You can also export the axios call as a function.
+    const response: AxiosResponse = yield call(() => userLoginService(values));
+    const authToken = response.data.action_login.token;
+    if (!authToken) {
+      yield put(loginUserActionFail('error'));
+      toast.error('Please check your credentials');
+    } else {
+      yield put(loginUserActionSuccess(response.data.action_login.token));
+      setLocalStorage(KEYS.AUTH_TOKEN, response.data.action_login.token);
+      navigateHome();
+    }
+  } catch (error) {
+    toast.error('Please check your credentials');
+    yield put(loginUserActionFail(error));
   }
 }
 
@@ -38,9 +72,9 @@ function* getBooksByCategoryIdSaga(action: any) {
   }
 }
 
-function* bookCategoriesSaga(): SagaIterator {
+function* getBookCategoriesSaga(): SagaIterator {
   try {
-    const response: AxiosResponse = yield call(() => bookCategoriesService());
+    const response: AxiosResponse = yield call(() => getBookCategoriesService());
     const categoryIds = response.data.category.map((category: any) => category.id);
 
     // Fetching details for each category
@@ -52,18 +86,19 @@ function* bookCategoriesSaga(): SagaIterator {
       category: response.data.category[index],
       products: item.data.product,
     }));
-    yield put(bookCategoriesActionSuccess(data));
+    yield put(getBookCategoriesActionSuccess(data));
   } catch (error) {
     console.log(error);
-    yield put(bookCategoriesActionFail(error));
+    yield put(getBookCategoriesActionFail(error));
   }
 }
 
 // Generator function
 export function* storeSaga() {
-  yield takeLatest(registerUserAction.type, registerUserSaga);
-  yield takeLatest(bookCategoriesAction.type, bookCategoriesSaga);
+  yield takeLatest(registerUserAction.type, getRegisterUserSaga);
+  yield takeLatest(getBookCategoriesAction.type, getBookCategoriesSaga);
   yield takeLatest(getBooksByIdAction.type, getBooksByCategoryIdSaga);
+  yield takeLatest(loginUserAction.type, userLoginSaga);
 }
 
 const rootSaga = function* () {

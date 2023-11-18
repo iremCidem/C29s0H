@@ -2,24 +2,31 @@
 import React from 'react';
 import { Formik, Field, Form } from 'formik';
 import FormButton from '@/components/FormButton';
-
+import { loginUserAction } from '@/store/auth';
 import Image from 'next/image';
 import InputBox from '@/components/InputBox';
 import Picture from '@/images/Picture.png';
 import Logo from '@/images/Logo.png';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const navigateHome = () => {
+    router.push('/home');
+  };
   return (
     <div className='grid grid-cols-2'>
       <Image src={Picture} alt='loginPage' className='h-screen ' />
-      <div className='flex flex-col justify-center items-center'>
-        <Image src={Logo} alt='logo' className='mb-20' />
+      <div className='flex flex-col justify-center  items-center '>
+        <Image src={Logo} alt='logo' />
         <p className='text-2xl'>Welcome Back!</p>
         <p className='text-[32px] leading-[43.71px]'>Login to your account</p>
         <Formik
           initialValues={{ email: '', password: '' }}
-          onSubmit={async (values) => {
-            console.log(values);
+          onSubmit={(values) => {
+            dispatch(loginUserAction({ values, navigateHome }));
           }}
         >
           <Form className='flex flex-col'>

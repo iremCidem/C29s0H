@@ -4,7 +4,7 @@ export interface IDataProps {
   password: string;
 }
 
-export interface IBooksCategoryProps {
+export interface IBooksCategory {
   id: number;
   name: string;
   created_at: string;
@@ -25,4 +25,9 @@ export interface IBookDetail {
       count: number;
     };
   };
+}
+
+export interface IBooksWithCategories {
+  category: IBooksCategory;
+  products: IBookDetail;
 }

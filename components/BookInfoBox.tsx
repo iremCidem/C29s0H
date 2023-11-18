@@ -25,6 +25,7 @@ const BookInfoBox = ({ book }: BookInfoBoxProps) => {
       console.error('POST isteği sırasında bir hata oluştu:', error);
     }
   };
+
   useEffect(() => {
     postImageData();
   }, []);

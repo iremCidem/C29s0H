@@ -1,11 +1,19 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Logo from '@/images/Logo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useToken } from '@/store/auth';
 
 const Header = () => {
   const router = useRouter();
+  const authToken = useToken();
+
+  useEffect(() => {
+    if (!authToken) {
+      router.push('/login');
+    }
+  }, []);
   return (
     <div className='flex justify-between px-[60px] py-[30px] items-center '>
       <Image

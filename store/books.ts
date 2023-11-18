@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
+import { IBooksWithCategories } from '@/app/types';
 
 interface BookState {
   isDataLoading: boolean;
-  booksWithCategories: [];
+  booksWithCategories: IBooksWithCategories[];
   bookListById: [];
 }
 
@@ -17,14 +18,14 @@ const books = createSlice({
   name: 'books',
   initialState,
   reducers: {
-    bookCategoriesAction: (state) => {
+    getBookCategoriesAction: (state) => {
       state.isDataLoading = true;
     },
-    bookCategoriesActionSuccess: (state, action) => {
+    getBookCategoriesActionSuccess: (state, action) => {
       state.booksWithCategories = action.payload;
       state.isDataLoading = false;
     },
-    bookCategoriesActionFail: (state, action) => {
+    getBookCategoriesActionFail: (state, action) => {
       state.isDataLoading = false;
       state.booksWithCategories = [];
     },
@@ -43,9 +44,9 @@ const books = createSlice({
 });
 
 export const {
-  bookCategoriesAction,
-  bookCategoriesActionFail,
-  bookCategoriesActionSuccess,
+  getBookCategoriesAction,
+  getBookCategoriesActionFail,
+  getBookCategoriesActionSuccess,
   getBooksByIdAction,
   getBooksByIdActionFail,
   getBooksByIdActionSuccess,

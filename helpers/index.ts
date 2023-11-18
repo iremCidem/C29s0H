@@ -1,34 +1,13 @@
-import Cookies from 'js-cookie';
+export const setLocalStorage = <T>(id: string, data: T) =>
+  typeof window !== undefined && localStorage?.setItem(id, JSON.stringify(data));
 
-/**
- * Sets a cookie with a specified key and value.
- *
- * @param cookieKey - The key for the cookie.
- * @param value - The value to set for the cookie.
- */
-export function setCookie(cookieKey: string, value: string): void {
-  if (cookieKey && value !== undefined) {
-    Cookies.set(cookieKey, value);
-  } else {
-    console.warn('Invalid key or value. Cookie was not set.');
+export const getLocalStorage: <T>(id: string) => T | undefined = <T>(id: string): T | undefined => {
+  if (typeof window !== 'undefined') {
+    const value = localStorage.getItem(id);
+    return value ? (JSON.parse(value) as T) : undefined;
   }
-}
+  return undefined;
+};
 
-/**
- * Gets the value of a cookie by its key.
- *
- * @param cookieKey - The key for the cookie.
- * @returns The value of the cookie or null if not found.
- */
-export function getCookie(cookieKey: string): string | null {
-  return Cookies.get(cookieKey) || null;
-}
-
-/**
- * Removes a cookie by its key.
- *
- * @param cookieKey - The key for the cookie.
- */
-export function removeCookie(cookieKey: string): void {
-  Cookies.remove(cookieKey);
-}
+export const removeFromLocalStorage: (key: string) => void = (key: string) =>
+  typeof window !== undefined && localStorage?.removeItem(key);
