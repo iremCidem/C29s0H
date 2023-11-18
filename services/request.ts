@@ -25,7 +25,7 @@ export const requestManager = [
   },
 ];
 
-apiRequest.interceptors.request.use(...requestManager);
+// apiRequest.interceptors.request.use(...requestManager);
 // apiRequest.interceptors.response.use(...responseManager);
 
 export { apiRequest };
