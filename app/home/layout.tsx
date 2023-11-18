@@ -5,7 +5,7 @@ const Layout = ({ children }: any) => {
   return (
     <div>
       <Header />
-      <div>{children}</div>
+      <div className='px-[60px]'>{children}</div>
     </div>
   );
 };

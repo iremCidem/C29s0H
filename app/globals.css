@@ -8,6 +8,11 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+.body {
+  padding: 0;
+  margin: 0;
+}
+
 @layer utilities {
 
   .bg-input-color {
@@ -22,12 +27,14 @@
     border: #6251DD;
   }
 
-  .container {
-    padding: 30px 60px;
-  }
+
 
   .text-orange {
     color: #EF6B4A;
+  }
+
+  .text-purple {
+    color: #6251DD;
   }
 
 }

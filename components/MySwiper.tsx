@@ -13,7 +13,7 @@ import React from 'react';
 
 const MySwiper = () => {
   return (
-    <div className='container'>
+    <div className='mb-[92px] mt-[40px]'>
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -26,7 +26,7 @@ const MySwiper = () => {
         }}
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
-        className='mySwiper h-[400px]'
+        className='mySwiper h-[400px] rounded-lg'
       >
         <SwiperSlide>
           <Image src={advertisingPhoto} alt='advertisement' />

@@ -10,7 +10,7 @@ export interface IBooksCategoryProps {
   created_at: string;
 }
 
-export interface IBookDetailProps {
+export interface IBookDetail {
   author: string;
   cover: string;
   created_at: string;

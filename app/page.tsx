@@ -19,7 +19,7 @@ export default function Register() {
   };
   return (
     <div className='grid grid-cols-2'>
-      <Image src={Picture} alt='dshfbs' className='h-screen ' />
+      <Image src={Picture} alt='login-img' className='h-screen ' />
       <div className='flex flex-col justify-center items-center'>
         <Image src={Logo} alt='logo' />
         <p className='text-2xl'>Welcome Back!</p>
