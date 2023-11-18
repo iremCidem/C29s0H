@@ -34,7 +34,7 @@ const BookInfoBox = ({ book }: BookInfoBoxProps) => {
       <img src={imageUrl} alt='book.cover' className='h-[180px]' />
       <div className=' '>
         <p className='text-[20px] font-semibold pt-2.5'>{book.name}</p>
-        <p className='text-[16px] font-semibold'>{book.author}</p>
+        <p className='text-[16px] font-semibold text-gray'>{book.author}</p>
         <p className='text-[24px] font-bold text-purple'>${book.price}</p>
       </div>
     </div>

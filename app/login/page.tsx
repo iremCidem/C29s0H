@@ -31,10 +31,10 @@ const Login = () => {
                 Remember Me
               </label>
             </div>
-            <FormButton borderColor='btn-border-color' type='button'>
+            <FormButton borderColor='btn-border-color' textColor='text-purple' type='button'>
               Register
             </FormButton>
-            <FormButton bgColor='bg-button-orange' type='submit'>
+            <FormButton bgColor='bg-button-orange' textColor='text-white' type='submit'>
               Login
             </FormButton>
           </Form>

@@ -40,7 +40,7 @@ const SelectedCategoryBook = ({ book, category }: CategoryBookProps) => {
         <div className='flex justify-between items-end '>
           <div>
             <p className='text-[20px] font-semibold'>{book.name}</p>
-            <p className='text-[16px] font-semibold'>{book.author}</p>
+            <p className='text-[16px] font-semibold text-gray'>{book.author}</p>
           </div>
           <div>
             <p className='text-[24px] font-bold text-purple'>${book.price}</p>

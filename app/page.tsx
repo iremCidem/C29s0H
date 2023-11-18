@@ -39,10 +39,10 @@ export default function Register() {
               <ErrorMessage name='email' component='div' className='text-red-500' />
               <InputBox placeholder='******' label='Password' name='password' />
               <ErrorMessage name='password' component='div' className='text-red-500' />
-              <FormButton bgColor='bg-button-orange' type='submit'>
+              <FormButton bgColor='bg-button-orange' textColor='text-white' type='submit'>
                 Register
               </FormButton>
-              <FormButton borderColor='btn-border-color' type='button'>
+              <FormButton borderColor='btn-border-color' textColor='text-purple' type='button'>
                 Login
               </FormButton>
             </Form>
