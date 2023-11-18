@@ -24,7 +24,8 @@
   }
 
   .btn-border-color {
-    border: #6251DD;
+    border: 1px solid #6251DD;
+
   }
 
   .text-gray {
@@ -32,7 +33,6 @@
     color: rgba(9, 9, 55, 0.6);
 
   }
-
 
   .text-orange {
     color: #EF6B4A;

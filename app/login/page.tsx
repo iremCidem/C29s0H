@@ -11,9 +11,9 @@ import Logo from '@/images/Logo.png';
 const Login = () => {
   return (
     <div className='grid grid-cols-2'>
-      <Image src={Picture} alt='dshfbs' className='h-screen ' />
+      <Image src={Picture} alt='loginPage' className='h-screen ' />
       <div className='flex flex-col justify-center items-center'>
-        <Image src={Logo} alt='logo' />
+        <Image src={Logo} alt='logo' className='mb-20' />
         <p className='text-2xl'>Welcome Back!</p>
         <p className='text-[32px] leading-[43.71px]'>Login to your account</p>
         <Formik
@@ -31,11 +31,11 @@ const Login = () => {
                 Remember Me
               </label>
             </div>
-            <FormButton borderColor='btn-border-color' textColor='text-purple' type='button'>
-              Register
-            </FormButton>
             <FormButton bgColor='bg-button-orange' textColor='text-white' type='submit'>
               Login
+            </FormButton>
+            <FormButton borderColor='btn-border-color' textColor='text-purple' type='button'>
+              Register
             </FormButton>
           </Form>
         </Formik>
