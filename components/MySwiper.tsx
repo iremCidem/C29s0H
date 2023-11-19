@@ -28,7 +28,7 @@ const MySwiper = () => {
         className='mySwiper h-[400px] rounded-lg'
       >
         <SwiperSlide>
-          <Image src={advertisingPhoto} alt='advertisement' width={'100%'} />
+          <Image src={advertisingPhoto} alt='advertisement' />
         </SwiperSlide>
         <SwiperSlide>
           <img src='https://swiperjs.com/demos/images/nature-2.jpg' alt='advertisement' width='100%' />
