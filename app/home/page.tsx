@@ -3,17 +3,23 @@ import MySwiper from '@/components/MySwiper';
 import { useDispatch } from 'react-redux';
 import { getBookCategoriesAction } from '@/store/books';
 import { useEffect } from 'react';
-import { useBooksWithCategories } from '@/store/books';
+import { useBooksWithCategories, useBooksLoading } from '@/store/books';
 import CategoryHeader from '@/components/CategoryHeader';
 import BookInfoBox from '@/components/BookInfoBox';
+import ReactLoading from 'react-loading';
 
 export default function Home() {
   const data: IBooksWithCategories[] = useBooksWithCategories();
+  const isLoading = useBooksLoading();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getBookCategoriesAction());
   }, []);
+
+  if (isLoading) {
+    return <ReactLoading type='spin' color='#009ef7' height={50} width={50} />;
+  }
 
   return (
     <div>

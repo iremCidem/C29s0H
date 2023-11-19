@@ -54,5 +54,6 @@ export const {
 
 export const useBooksWithCategories = () => useSelector((state: any) => state.books.booksWithCategories);
 export const useBookList = () => useSelector((state: any) => state.books.bookListById);
+export const useBooksLoading = () => useSelector((state: any) => state.books.isDataLoading);
 
 export default books.reducer;

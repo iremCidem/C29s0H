@@ -8,13 +8,15 @@ import { useDispatch } from 'react-redux';
 import { useToken } from '@/store/auth';
 import Image from 'next/image';
 import { getBooksByIdAction } from '@/store/books';
-import { useBookList } from '@/store/books';
+import { useBookList, useBooksLoading } from '@/store/books';
+import ReactLoading from 'react-loading';
 
 const BookDetail = () => {
   const token = useToken();
   const dispatch = useDispatch();
   const { category, slug } = useParams();
   const { product } = useBookList();
+  const isLoading = useBooksLoading();
   const decodedUrl = decodeURIComponent(slug);
   const [imageUrl, setImageUrl] = useState();
   const selectedBook = product?.find((book) => book.slug === slug);
@@ -78,7 +80,7 @@ const BookDetail = () => {
   //   getBookDetail();
   // }
   if (!selectedBook) {
-    return <div>loading</div>;
+    return <ReactLoading type='spin' color='#009ef7' height={50} width={50} />;
   }
   return (
     <div>

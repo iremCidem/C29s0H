@@ -3,23 +3,29 @@ import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { getBooksByIdAction } from '@/store/books';
 import { useDispatch } from 'react-redux';
-import { useBookList } from '@/store/books';
+import { useBookList, useBooksLoading } from '@/store/books';
 import SelectedCategoryBook from '@/components/SelectedCategoryBook';
 import { IBookDetail } from '@/app/types';
 import BackPageButton from '@/components/BackPageButton';
 import { useRouter } from 'next/router';
 import { useBooksWithCategories } from '@/store/books';
 import { getBookCategoriesAction } from '@/store/books';
+import ReactLoading from 'react-loading';
 
 const Category = ({ searchParams }) => {
   const { category } = useParams();
   const data = useBooksWithCategories();
   const dispatch = useDispatch();
   const { product } = useBookList();
+  const isLoading = useBooksLoading();
 
   useEffect(() => {
     dispatch(getBooksByIdAction(category));
   }, [category]);
+
+  if (isLoading) {
+    return <ReactLoading type='spin' color='#009ef7' height={50} width={50} />;
+  }
 
   return (
     <>
