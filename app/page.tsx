@@ -19,7 +19,7 @@ const Login = () => {
   };
   return (
     <div className='grid grid-cols-2 '>
-      <Image src={Picture} alt='loginPage' className='h-full max-h-[1024px]' />
+      <Image src={Picture} alt='loginPage' className='h-full' />
       <div className='flex flex-col items-center pb-[40px]'>
         <Image src={Logo} alt='logo' className='w-[120px] h-[78px] mt-[80px] mb-[111px]' />
         <p className='text-2xl'>Welcome Back!</p>
@@ -35,7 +35,7 @@ const Login = () => {
             <Form className='flex flex-col'>
               <InputBox placeholder='john@mail.com' label='E-mail' name='email' classname='mb-[40px]' />
               {touched.email && errors.email && (
-                <ErrorMessage name='email' component='div' className='text-xs text-red-500' />
+                <ErrorMessage name='email' component='div' className='text-xs text-red-500 relative bottom-[40px]' />
               )}
               <InputBox placeholder='******' label='Password' name='password' />
               {touched.password && errors.password && (

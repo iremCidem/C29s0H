@@ -17,9 +17,12 @@ const BookDetail = () => {
   const { category, slug } = useParams();
   const { product } = useBookList();
   const isLoading = useBooksLoading();
-  const decodedUrl = decodeURIComponent(slug);
   const [imageUrl, setImageUrl] = useState();
-  const selectedBook = product?.find((book) => book.slug === slug);
+  const [selectedBook, setSelectedBook] = useState();
+
+  useEffect(() => {
+    setSelectedBook(product?.find((book) => book.slug === slug));
+  }, [product, slug]);
 
   useEffect(() => {
     dispatch(getBooksByIdAction(category));
@@ -47,7 +50,7 @@ const BookDetail = () => {
 
   useEffect(() => {
     postImageData();
-  }, []);
+  }, [selectedBook]);
 
   // const addToFavorite = async () => {
   //   if (token) {
@@ -82,6 +85,7 @@ const BookDetail = () => {
   if (!selectedBook) {
     return <ReactLoading type='spin' color='#009ef7' height={50} width={50} />;
   }
+
   return (
     <div>
       <div>
@@ -117,7 +121,7 @@ const BookDetail = () => {
         </div>
       </div>
       <div className='float-right mb-[40px]'>
-        <FormButton bgColor='bg-button-orange' type='button' textColor='text-white'>
+        <FormButton bgColor='bg-button-orange' type='button' textColor='text-white' navigate='false'>
           <div className='flex justify-around'>
             <span> $ {selectedBook?.price} </span>
             <span>Buy Now</span>

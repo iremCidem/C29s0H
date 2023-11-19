@@ -30,7 +30,7 @@ export default function Home() {
             <CategoryHeader data={item.category} />
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-[60px]'>
               {item.products.map((product) => (
-                <BookInfoBox book={product} />
+                <BookInfoBox book={product} category={item.category} />
               ))}
             </div>
           </div>

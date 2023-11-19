@@ -35,15 +35,19 @@ export default function Register() {
             <Form className='flex flex-col'>
               <InputBox placeholder='John Doe' label='Name-Surname' name='name' classname='mb-[40px]' />
               {touched.name && errors.name && (
-                <ErrorMessage name='name' component='div' className='text-xs text-red-500' />
+                <ErrorMessage name='name' component='div' className='text-xs text-red-500 relative bottom-[40px]' />
               )}
               <InputBox placeholder='john@mail.com' label='E-mail' name='email' classname='mb-[40px]' />
               {touched.email && errors.email && (
-                <ErrorMessage name='email' component='div' className='text-xs text-red-500' />
+                <ErrorMessage name='email' component='div' className='text-xs text-red-500 relative bottom-[40px]' />
               )}
               <InputBox placeholder='******' label='Password' name='password' classname='mb-[47px]' />
               {touched.password && errors.password && (
-                <ErrorMessage name='password' component='div' className='text-xs  text-red-500' />
+                <ErrorMessage
+                  name='password'
+                  component='div'
+                  className='text-xs  text-red-500 relative bottom-[47px]'
+                />
               )}
               <FormButton bgColor='bg-button-orange' textColor='text-white' type='submit' navigate='false'>
                 Register
