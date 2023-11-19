@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik, Field, Form } from 'formik';
 
-function InputBox({ placeholder, label, name }: any) {
+function InputBox({ placeholder, label, name, classname }: any) {
   return (
-    <div className='mt-[40px] inline'>
+    <div className={classname}>
       <h3 className='text-xl font-semibold mb-2.5'>{label}</h3>
       <Field
         name={name}

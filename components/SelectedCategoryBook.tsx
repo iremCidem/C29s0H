@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IBookDetail } from '@/app/types';
 import Link from 'next/link';
+import { ENVIRONMENT } from '@/config';
 
 interface CategoryBookProps {
   book: IBookDetail;
@@ -12,7 +13,7 @@ const SelectedCategoryBook = ({ book, category }: CategoryBookProps) => {
 
   const postImageData = async () => {
     try {
-      const response = await fetch('https://assign-api.piton.com.tr/api/rest/cover_image', {
+      const response = await fetch(ENVIRONMENT.API_URL + '/cover_image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,9 +35,9 @@ const SelectedCategoryBook = ({ book, category }: CategoryBookProps) => {
   }, []);
 
   return (
-    <Link href={`/home/${category}/${book.id}`}>
-      <div className=' h-[433px] bg-input-color p-5 rounded '>
-        <img src={imageUrl} alt='bookImg' className='h-[300px]  mx-auto mb-auto ' />
+    <Link href={`/home/${category}/${book.slug}`}>
+      <div className=' h-[433px] bg-input-color p-5 rounded flex flex-col justify-between '>
+        <img src={imageUrl} alt='bookImg' className='h-[300px] mx-auto bt-[20px] ' />
         <div className='flex justify-between items-end '>
           <div>
             <p className='text-[20px] font-semibold'>{book.name}</p>

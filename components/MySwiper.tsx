@@ -24,12 +24,11 @@ const MySwiper = () => {
         pagination={{
           clickable: true,
         }}
-        navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
         className='mySwiper h-[400px] rounded-lg'
       >
         <SwiperSlide>
-          <Image src={advertisingPhoto} alt='advertisement' />
+          <Image src={advertisingPhoto} alt='advertisement' width={'100%'} />
         </SwiperSlide>
         <SwiperSlide>
           <img src='https://swiperjs.com/demos/images/nature-2.jpg' alt='advertisement' width='100%' />

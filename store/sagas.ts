@@ -32,7 +32,7 @@ import { toast } from 'react-toastify';
 function* getRegisterUserSaga(action: any) {
   try {
     const { values, navigateHome } = action.payload;
-    // You can also export the axios call as a function.
+
     const response: AxiosResponse = yield call(() => getRegisterService(values));
     yield put(registerUserActionSuccess(response.data.action_register.token));
     setLocalStorage(KEYS.AUTH_TOKEN, response.data.action_register.token);
@@ -46,7 +46,7 @@ function* getRegisterUserSaga(action: any) {
 function* userLoginSaga(action: any) {
   try {
     const { values, navigateHome } = action.payload;
-    // You can also export the axios call as a function.
+
     const response: AxiosResponse = yield call(() => userLoginService(values));
     const authToken = response.data.action_login.token;
     if (!authToken) {

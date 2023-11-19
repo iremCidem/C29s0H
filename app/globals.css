@@ -31,7 +31,6 @@
   .text-gray {
 
     color: rgba(9, 9, 55, 0.6);
-
   }
 
   .text-orange {
@@ -42,4 +41,19 @@
     color: #6251DD;
   }
 
+  .header-shadow {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  }
+
+  .flexResponsive {
+    display: flex;
+  }
+
+  @media screen and (max-width: 992px) {
+    .flexResponsive {
+      flex-direction: column;
+      /* Sayfa genişliği 600 pikselin altındaysa flex-direction'ı değiştir */
+    }
+  }
 }

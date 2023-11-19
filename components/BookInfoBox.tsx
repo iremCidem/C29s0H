@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IBookDetail } from '@/app/types';
+import { ENVIRONMENT } from '@/config';
 interface BookInfoBoxProps {
   book: IBookDetail;
 }
@@ -8,7 +9,7 @@ const BookInfoBox = ({ book }: BookInfoBoxProps) => {
   const [imageUrl, setImageUrl] = useState();
   const postImageData = async () => {
     try {
-      const response = await fetch('https://assign-api.piton.com.tr/api/rest/cover_image', {
+      const response = await fetch(ENVIRONMENT.API_URL + '/cover_image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

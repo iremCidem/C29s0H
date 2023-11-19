@@ -1,9 +1,12 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
-const FormButton = ({ children, bgColor, borderColor, type, textColor }: any) => {
+const FormButton = ({ children, bgColor, borderColor, type, textColor, navigate }: any) => {
+  const router = useRouter();
   return (
     <>
       <button
+        onClick={() => (navigate && children === 'Register' ? router.push('/register') : router.push('/'))}
         type={type}
         className={`${bgColor} ${textColor} ${
           textColor === 'text-purple' ? 'btn-border-color' : 'border-0'

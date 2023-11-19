@@ -3,62 +3,125 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import BackPageButton from '@/components/BackPageButton';
 import FormButton from '@/components/FormButton';
+import { ENVIRONMENT } from '@/config';
+import { useDispatch } from 'react-redux';
+import { useToken } from '@/store/auth';
+import Image from 'next/image';
+import { getBooksByIdAction } from '@/store/books';
+import { useBookList } from '@/store/books';
 
 const BookDetail = () => {
-  const { slug } = useParams();
-  const [BookDetail, setBookDetail] = useState();
+  const token = useToken();
+  const dispatch = useDispatch();
+  const { category, slug } = useParams();
+  const { product } = useBookList();
+  const decodedUrl = decodeURIComponent(slug);
+  const [imageUrl, setImageUrl] = useState();
+  const selectedBook = product?.find((book) => book.slug === slug);
 
-  const getBookDetail = async () => {
+  useEffect(() => {
+    dispatch(getBooksByIdAction(category));
+  }, [category]);
+
+  const postImageData = async () => {
     try {
-      const response = await fetch(`https://assign-api.piton.com.tr/api/rest/products/${slug}`, {
-        method: 'GET',
+      const response = await fetch(ENVIRONMENT.API_URL + '/cover_image', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          fileName: selectedBook?.cover,
+        }),
       });
 
       const data = await response.json();
-      // data.product.find((item) => item.id)
+
+      setImageUrl(data.action_product_image.url);
     } catch (error) {
-      // console.error('POST isteği sırasında bir hata oluştu:', error);
+      console.error('POST isteği sırasında bir hata oluştu:', error);
     }
   };
 
   useEffect(() => {
-    getBookDetail();
+    postImageData();
   }, []);
 
+  // const addToFavorite = async () => {
+  //   if (token) {
+  //     try {
+  //       const response = await fetch(ENVIRONMENT.API_URL + '/like', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify({
+  //           user_id: category,
+  //           product_id: slug,
+  //         }),
+  //       });
+
+  //       const data = await response.json();
+  //     } catch (error) {
+  //       console.log(error);
+  //       console.error('GET isteği sırasında bir hata oluştu:', error);
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getBookDetail();
+  // }, []);
+
+  // function addToFavorite() {
+  //   getBookDetail();
+  // }
+  if (!selectedBook) {
+    return <div>loading</div>;
+  }
   return (
     <div>
-      <div className=' mt-[31px]'>
+      <div>
         <BackPageButton text='Book Details' />
-        <div className='flex'>
-          <div>
-            <img src='' alt='bookImg' height='570px' />
+        <div className='flexResponsive'>
+          <div className='me-[80px] bg-input-color rounded'>
+            <img src={imageUrl} alt='bookImg' className='min-h-[300px] min-w-[450px] p-[60px] ' />
           </div>
           <div>
             <div className='flex justify-between'>
-              <p className='text-[40px] font-semibold'>name</p>
-              <div className='w-[44px] h-[44px] bg-input-color grid place-items-center rounded-full'>
-                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' className='w-6 h-6 cursor-pointer'>
-                  <path d='M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z'></path>
+              <p className='text-[40px] font-semibold'>{selectedBook?.name}</p>
+              <div
+                className='w-[44px] h-[44px] bg-input-color grid place-items-center rounded-full cursor-pointer'
+                // onClick={addToFavorite}
+              >
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 20 20'
+                  fill='#F4F4FF'
+                  stroke='black'
+                  strokeWidth='2'
+                  className='w-6 h-6'
+                >
+                  <path d='M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z' />
                 </svg>
               </div>
             </div>
 
-            <p className='text-gray text-[32px]'>author</p>
-            <p className='text-2xl font-bold'>summary</p>
-            <p className='font-semibold text-[20px] text-gray'>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis explicabo nobis dicta, sint fuga,
-              harum deserunt ab odio repellendus quae sed, voluptatem dignissimos culpa. Doloribus corrupti assumenda
-              nemo recusandae id?
-            </p>
+            <p className='text-gray text-[32px] mb-[60px]'>{selectedBook?.author}</p>
+            <p className='text-2xl font-bold mb-[10px]'>Summary</p>
+            <p className='font-semibold text-[20px] text-gray mb-[188px]'>{selectedBook?.description}</p>
           </div>
         </div>
       </div>
-      <FormButton bgColor='bg-button-orange' type='button' textColor='text-white'>
-        Price
-      </FormButton>
+      <div className='float-right mb-[40px]'>
+        <FormButton bgColor='bg-button-orange' type='button' textColor='text-white'>
+          <div className='flex justify-around'>
+            <span> $ {selectedBook?.price} </span>
+            <span>Buy Now</span>
+          </div>
+        </FormButton>
+      </div>
     </div>
   );
 };
