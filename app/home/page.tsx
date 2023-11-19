@@ -7,10 +7,9 @@ import { useBooksWithCategories, useBooksLoading } from '@/store/books';
 import CategoryHeader from '@/components/CategoryHeader';
 import BookInfoBox from '@/components/BookInfoBox';
 import ReactLoading from 'react-loading';
-import { useToken } from '@/store/auth';
+import { IBooksWithCategories } from '../types';
 
 export default function Home() {
-  const authToken = useToken();
   const data: IBooksWithCategories[] = useBooksWithCategories();
   const isLoading = useBooksLoading();
   const dispatch = useDispatch();
@@ -27,9 +26,9 @@ export default function Home() {
     <div>
       <MySwiper />
       <div className=''>
-        {data?.map((item) => (
-          <div key={item.id}>
-            <CategoryHeader data={item.category} key={item.id} />
+        {data?.map((item, index) => (
+          <div key={index}>
+            <CategoryHeader data={item.category} key={index} />
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-[60px]'>
               {item.products.map((product) => (
                 <BookInfoBox book={product} category={item.category} key={product.id} />

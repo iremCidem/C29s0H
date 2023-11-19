@@ -7,14 +7,10 @@ import { useBookList, useBooksLoading } from '@/store/books';
 import SelectedCategoryBook from '@/components/SelectedCategoryBook';
 import { IBookDetail } from '@/app/types';
 import BackPageButton from '@/components/BackPageButton';
-import { useRouter } from 'next/router';
-import { useBooksWithCategories } from '@/store/books';
-import { getBookCategoriesAction } from '@/store/books';
 import ReactLoading from 'react-loading';
 
-const Category = ({ searchParams }) => {
+const Category = ({ searchParams }: any) => {
   const { category } = useParams();
-  const data = useBooksWithCategories();
   const dispatch = useDispatch();
   const { product } = useBookList();
   const isLoading = useBooksLoading();

@@ -43,13 +43,7 @@ const Login = () => {
                 <ErrorMessage name='password' component='div' className='text-xs text-red-500' />
               )}
               <div className='form-group form-check flex items-center mb-[150px] mt-[7px]'>
-                <Field
-                  type='checkbox'
-                  name='rememberMe'
-                  type='checkbox'
-                  id='acceptTerms'
-                  className='form-check-input me-1'
-                />
+                <Field type='checkbox' name='rememberMe' id='acceptTerms' className='form-check-input me-1' />
 
                 <label htmlFor='rememberMe' className='form-check-label text-base'>
                   Remember Me

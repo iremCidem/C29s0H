@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { IBookDetail } from '@/app/types';
+import { IBookDetail, IBooksCategory } from '@/app/types';
 import { ENVIRONMENT } from '@/config';
 import Link from 'next/link';
+
 interface BookInfoBoxProps {
   book: IBookDetail;
-  categoryId: string;
+  category: IBooksCategory;
 }
 
 const BookInfoBox = ({ book, category }: BookInfoBoxProps) => {

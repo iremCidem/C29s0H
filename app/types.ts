@@ -30,5 +30,5 @@ export interface IBookDetail {
 
 export interface IBooksWithCategories {
   category: IBooksCategory;
-  products: IBookDetail;
+  products: IBookDetail[];
 }

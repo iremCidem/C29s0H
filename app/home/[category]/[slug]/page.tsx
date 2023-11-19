@@ -1,23 +1,19 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import BackPageButton from '@/components/BackPageButton';
 import FormButton from '@/components/FormButton';
 import { ENVIRONMENT } from '@/config';
 import { useDispatch } from 'react-redux';
-import { useToken } from '@/store/auth';
-import Image from 'next/image';
-import { getBooksByIdAction, useBooksLoading } from '@/store/books';
-import { useBookList, useSelectedBook } from '@/store/books';
+import { useBooksLoading } from '@/store/books';
+import { useSelectedBook } from '@/store/books';
 import ReactLoading from 'react-loading';
 import { toast } from 'react-toastify';
 import { getBookDetailAction, setBooksFavoriteAction } from '@/store/books';
 
 const BookDetail = () => {
-  const token = useToken();
   const dispatch = useDispatch();
   const { category, slug } = useParams();
-  const { product } = useBookList();
   const isLoading = useBooksLoading();
   const [imageUrl, setImageUrl] = useState();
   const selectedBook = useSelectedBook();

@@ -4,7 +4,6 @@ import Logo from '@/images/Logo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useToken } from '@/store/auth';
-import ReactLoading from 'react-loading';
 
 const Header = () => {
   const router = useRouter();
@@ -33,11 +32,7 @@ const Header = () => {
           stroke='currentColor'
           className='w-4 h-4 absolute left-2'
         >
-          <path
-            strokeLinecap=''
-            strokeLinejoin=''
-            d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-          />
+          <path d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z' />
         </svg>
         <input
           style={{ textIndent: '10px' }}

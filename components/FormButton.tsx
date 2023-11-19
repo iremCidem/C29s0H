@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-const FormButton = ({ children, bgColor, borderColor, type, textColor, navigate }: any) => {
+const FormButton = ({ children, bgColor, type, textColor, navigate }: any) => {
   const router = useRouter();
   return (
     <>

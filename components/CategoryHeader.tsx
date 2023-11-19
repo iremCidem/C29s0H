@@ -1,7 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import { IBooksCategory } from '@/app/types';
 
-const CategoryHeader = ({ data }) => {
+interface categoryHeaderProps {
+  data: IBooksCategory;
+}
+
+const CategoryHeader = ({ data }: categoryHeaderProps) => {
   return (
     <div className='flex justify-between mb-5'>
       <p className='font-bold text-[32px]'>{data?.name}</p>
