@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest, call, select } from 'redux-saga/effects';
 import {
   getBookCategoriesService,
   getRegisterService,
@@ -23,9 +23,15 @@ import {
   getBooksByIdAction,
   getBooksByIdActionFail,
   getBooksByIdActionSuccess,
+  getBookDetailActionSuccess,
+  getBookDetailAction,
+  getBookDetailActionFail,
+  setBooksFavoriteAction,
+  setBooksFavoriteActionFail,
+  setBooksFavoriteActionSuccess,
 } from './books';
 import { SagaIterator } from 'redux-saga';
-import { setLocalStorage } from '@/helpers';
+import { setLocalStorage, setSessionStorage } from '@/helpers';
 import { toast } from 'react-toastify';
 
 // Generator function
@@ -46,15 +52,21 @@ function* getRegisterUserSaga(action: any) {
 function* userLoginSaga(action: any) {
   try {
     const { values, navigateHome } = action.payload;
-
-    const response: AxiosResponse = yield call(() => userLoginService(values));
+    const { rememberMe, ...rest } = values;
+    const response: AxiosResponse = yield call(() => userLoginService(rest));
     const authToken = response.data.action_login.token;
+
     if (!authToken) {
       yield put(loginUserActionFail('error'));
       toast.error('Please check your credentials');
     } else {
-      yield put(loginUserActionSuccess(response.data.action_login.token));
-      setLocalStorage(KEYS.AUTH_TOKEN, response.data.action_login.token);
+      yield put(loginUserActionSuccess(authToken));
+      if (rememberMe) {
+        setLocalStorage(KEYS.AUTH_TOKEN, authToken);
+      } else {
+        setSessionStorage(KEYS.AUTH_TOKEN, authToken);
+      }
+
       navigateHome();
     }
   } catch (error) {
@@ -69,6 +81,38 @@ function* getBooksByCategoryIdSaga(action: any) {
     yield put(getBooksByIdActionSuccess(response.data));
   } catch (error) {
     yield put(getBooksByIdActionFail(error));
+  }
+}
+
+function* getBookDetailSaga(action: any) {
+  try {
+    const { category, slug } = action.payload;
+    const response: AxiosResponse = yield call(() => getBooksByCategoryIdService(category));
+    const selectedBookDetail = response.data.product.find((book) => book.slug === slug);
+    const book = { ...selectedBookDetail, isFavorite: false };
+    yield put(getBookDetailActionSuccess(book));
+  } catch (error) {
+    console.log(error);
+    yield put(getBookDetailActionFail(error));
+  }
+}
+
+function* setBookFavoriteSaga(action: any) {
+  try {
+    const selectedBook = yield select((state) => state.books.selectedBook);
+    const newSelectedBook = {
+      ...selectedBook,
+      isFavorite: !action.payload,
+    };
+    yield put(setBooksFavoriteActionSuccess(newSelectedBook));
+    if (newSelectedBook?.isFavorite) {
+      toast.success('added to favorite');
+    } else {
+      toast.warning('removed from favorite');
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(setBooksFavoriteActionFail(error));
   }
 }
 
@@ -99,6 +143,8 @@ export function* storeSaga() {
   yield takeLatest(getBookCategoriesAction.type, getBookCategoriesSaga);
   yield takeLatest(getBooksByIdAction.type, getBooksByCategoryIdSaga);
   yield takeLatest(loginUserAction.type, userLoginSaga);
+  yield takeLatest(getBookDetailAction.type, getBookDetailSaga);
+  yield takeLatest(setBooksFavoriteAction.type, setBookFavoriteSaga);
 }
 
 const rootSaga = function* () {

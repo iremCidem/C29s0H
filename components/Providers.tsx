@@ -9,7 +9,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
       {children}
-      <ToastContainer />
+      <ToastContainer autoClose={500} />
     </Provider>
   );
 }

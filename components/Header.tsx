@@ -4,6 +4,7 @@ import Logo from '@/images/Logo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useToken } from '@/store/auth';
+import ReactLoading from 'react-loading';
 
 const Header = () => {
   const router = useRouter();
@@ -11,9 +12,10 @@ const Header = () => {
 
   useEffect(() => {
     if (!authToken) {
-      router.push('/login');
+      router.push('/');
     }
   }, []);
+
   return (
     <div className='  items-center flex header-shadow mb-10 px-[60px] py-[35px] gap-[10.5%] '>
       <Image
@@ -27,13 +29,13 @@ const Header = () => {
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
           viewBox='0 0 24 24'
-          stroke-width='1.5'
+          strokeWidth='1.5'
           stroke='currentColor'
           className='w-4 h-4 absolute left-2'
         >
           <path
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap=''
+            strokeLinejoin=''
             d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
           />
         </svg>
@@ -70,7 +72,7 @@ const Header = () => {
             <path d='M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z' />
           </svg>
         </div>
-        <div className='bg-input-color w-[50px] h-[50px] grid place-items-center rounded cursor-pointer'>
+        <div className='bg-input-color min-w-[50px] h-[50px] flex items-center justify-center rounded cursor-pointer '>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'

@@ -7,9 +7,11 @@ import { ENVIRONMENT } from '@/config';
 import { useDispatch } from 'react-redux';
 import { useToken } from '@/store/auth';
 import Image from 'next/image';
-import { getBooksByIdAction } from '@/store/books';
-import { useBookList, useBooksLoading } from '@/store/books';
+import { getBooksByIdAction, useBooksLoading } from '@/store/books';
+import { useBookList, useSelectedBook } from '@/store/books';
 import ReactLoading from 'react-loading';
+import { toast } from 'react-toastify';
+import { getBookDetailAction, setBooksFavoriteAction } from '@/store/books';
 
 const BookDetail = () => {
   const token = useToken();
@@ -18,15 +20,7 @@ const BookDetail = () => {
   const { product } = useBookList();
   const isLoading = useBooksLoading();
   const [imageUrl, setImageUrl] = useState();
-  const [selectedBook, setSelectedBook] = useState();
-
-  useEffect(() => {
-    setSelectedBook(product?.find((book) => book.slug === slug));
-  }, [product, slug]);
-
-  useEffect(() => {
-    dispatch(getBooksByIdAction(category));
-  }, [category]);
+  const selectedBook = useSelectedBook();
 
   const postImageData = async () => {
     try {
@@ -41,7 +35,6 @@ const BookDetail = () => {
       });
 
       const data = await response.json();
-
       setImageUrl(data.action_product_image.url);
     } catch (error) {
       console.error('POST isteği sırasında bir hata oluştu:', error);
@@ -49,40 +42,22 @@ const BookDetail = () => {
   };
 
   useEffect(() => {
-    postImageData();
-  }, [selectedBook]);
+    if (category && slug) {
+      dispatch(getBookDetailAction({ category, slug }));
+    }
+  }, [category, slug]);
 
-  // const addToFavorite = async () => {
-  //   if (token) {
-  //     try {
-  //       const response = await fetch(ENVIRONMENT.API_URL + '/like', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify({
-  //           user_id: category,
-  //           product_id: slug,
-  //         }),
-  //       });
+  useEffect(() => {
+    if (selectedBook?.cover) {
+      postImageData();
+    }
+  }, [selectedBook?.cover]);
 
-  //       const data = await response.json();
-  //     } catch (error) {
-  //       console.log(error);
-  //       console.error('GET isteği sırasında bir hata oluştu:', error);
-  //     }
-  //   }
-  // };
+  function addToFavorite() {
+    dispatch(setBooksFavoriteAction(selectedBook.isFavorite));
+  }
 
-  // useEffect(() => {
-  //   getBookDetail();
-  // }, []);
-
-  // function addToFavorite() {
-  //   getBookDetail();
-  // }
-  if (!selectedBook) {
+  if (isLoading) {
     return <ReactLoading type='spin' color='#009ef7' height={50} width={50} />;
   }
 
@@ -99,18 +74,24 @@ const BookDetail = () => {
               <p className='text-[40px] font-semibold'>{selectedBook?.name}</p>
               <div
                 className='w-[44px] h-[44px] bg-input-color grid place-items-center rounded-full cursor-pointer'
-                // onClick={addToFavorite}
+                onClick={addToFavorite}
               >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 20 20'
-                  fill='#F4F4FF'
-                  stroke='black'
-                  strokeWidth='2'
-                  className='w-6 h-6'
-                >
-                  <path d='M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z' />
-                </svg>
+                {selectedBook?.isFavorite ? (
+                  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' className='w-6 h-6'>
+                    <path d='M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z' />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 20 20'
+                    fill='#F4F4FF'
+                    stroke='black'
+                    strokeWidth='2'
+                    className='w-6 h-6'
+                  >
+                    <path d='M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z' />
+                  </svg>
+                )}
               </div>
             </div>
 
@@ -121,8 +102,13 @@ const BookDetail = () => {
         </div>
       </div>
       <div className='float-right mb-[40px]'>
-        <FormButton bgColor='bg-button-orange' type='button' textColor='text-white' navigate='false'>
-          <div className='flex justify-around'>
+        <FormButton bgColor='bg-button-orange' type='button' textColor='text-white' navigate={false}>
+          <div
+            className='flex justify-around'
+            onClick={() => {
+              toast.success('Added to cart!');
+            }}
+          >
             <span> $ {selectedBook?.price} </span>
             <span>Buy Now</span>
           </div>

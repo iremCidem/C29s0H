@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { getLocalStorage, setLocalStorage } from '@/helpers';
+import { getLocalStorage, setLocalStorage, getSessionStorage } from '@/helpers';
 import { KEYS } from '@/constants';
 interface AuthState {
   isLoading: boolean;
@@ -9,7 +9,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   isLoading: false,
-  token: getLocalStorage(KEYS.AUTH_TOKEN) || '',
+  token: getLocalStorage(KEYS.AUTH_TOKEN) || getSessionStorage(KEYS.AUTH_TOKEN),
 };
 
 const auth = createSlice({

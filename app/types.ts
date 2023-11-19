@@ -25,6 +25,7 @@ export interface IBookDetail {
       count: number;
     };
   };
+  isFavorite?: boolean;
 }
 
 export interface IBooksWithCategories {

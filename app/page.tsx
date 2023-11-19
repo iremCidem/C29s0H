@@ -17,6 +17,7 @@ const Login = () => {
   const navigateHome = () => {
     router.push('/home');
   };
+
   return (
     <div className='grid grid-cols-2 '>
       <Image src={Picture} alt='loginPage' className='h-full' />
@@ -26,7 +27,7 @@ const Login = () => {
         <p className='text-[32px] leading-[43.71px] mb-[80px] '>Login to your account</p>
         <Formik
           validationSchema={loginValidation}
-          initialValues={{ email: '', password: '' }}
+          initialValues={{ email: '', password: '', rememberMe: false }}
           onSubmit={(values) => {
             dispatch(loginUserAction({ values, navigateHome }));
           }}
@@ -42,15 +43,22 @@ const Login = () => {
                 <ErrorMessage name='password' component='div' className='text-xs text-red-500' />
               )}
               <div className='form-group form-check flex items-center mb-[150px] mt-[7px]'>
-                <input name='acceptTerms' type='checkbox' id='acceptTerms' className='form-check-input me-1' />
-                <label htmlFor='acceptTerms' className='form-check-label text-base'>
+                <Field
+                  type='checkbox'
+                  name='rememberMe'
+                  type='checkbox'
+                  id='acceptTerms'
+                  className='form-check-input me-1'
+                />
+
+                <label htmlFor='rememberMe' className='form-check-label text-base'>
                   Remember Me
                 </label>
               </div>
-              <FormButton bgColor='bg-button-orange' textColor='text-white' type='submit' navigate='false'>
+              <FormButton bgColor='bg-button-orange' textColor='text-white' type='submit' navigate={false}>
                 Login
               </FormButton>
-              <FormButton borderColor='btn-border-color' textColor='text-purple' type='button' navigate='true'>
+              <FormButton borderColor='btn-border-color' textColor='text-purple' type='button' navigate={true}>
                 Register
               </FormButton>
             </Form>

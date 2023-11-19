@@ -14,9 +14,11 @@ import { useRouter } from 'next/navigation';
 export default function Register() {
   const dispatch = useDispatch();
   const router = useRouter();
+
   const navigateHome = () => {
     router.push('/home');
   };
+
   return (
     <div className='grid grid-cols-2'>
       <Image src={Picture} alt='login-img' className='h-full' />
@@ -49,10 +51,10 @@ export default function Register() {
                   className='text-xs  text-red-500 relative bottom-[47px]'
                 />
               )}
-              <FormButton bgColor='bg-button-orange' textColor='text-white' type='submit' navigate='false'>
+              <FormButton bgColor='bg-button-orange' textColor='text-white' type='submit' navigate={false}>
                 Register
               </FormButton>
-              <FormButton borderColor='btn-border-color' textColor='text-purple' type='button' navigate='true'>
+              <FormButton borderColor='btn-border-color' textColor='text-purple' type='button' navigate={true}>
                 Login
               </FormButton>
             </Form>

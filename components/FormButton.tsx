@@ -6,7 +6,11 @@ const FormButton = ({ children, bgColor, borderColor, type, textColor, navigate 
   return (
     <>
       <button
-        onClick={() => (navigate && children === 'Register' ? router.push('/register') : navigate && router.push('/'))}
+        onClick={() => {
+          if (navigate) {
+            children === 'Register' ? router.push('/register') : router.push('/');
+          }
+        }}
         type={type}
         className={`${bgColor} ${textColor} ${
           textColor === 'text-purple' ? 'btn-border-color' : 'border-0'

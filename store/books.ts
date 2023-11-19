@@ -1,17 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { IBooksWithCategories } from '@/app/types';
+import { IBooksWithCategories, IBookDetail } from '@/app/types';
 
 interface BookState {
   isDataLoading: boolean;
   booksWithCategories: IBooksWithCategories[];
   bookListById: [];
+  selectedBook: IBookDetail;
 }
 
 const initialState: BookState = {
   isDataLoading: false,
   booksWithCategories: [],
   bookListById: [],
+  selectedBook: undefined,
 };
 
 const books = createSlice({
@@ -40,6 +42,24 @@ const books = createSlice({
       state.isDataLoading = false;
       state.bookListById = [];
     },
+    getBookDetailAction: (state, action) => {
+      state.isDataLoading = true;
+    },
+    getBookDetailActionSuccess: (state, action) => {
+      state.selectedBook = action.payload;
+      state.isDataLoading = false;
+    },
+    getBookDetailActionFail: (state, action) => {
+      state.isDataLoading = false;
+      state.selectedBook = [];
+    },
+    setBooksFavoriteAction: (state, action) => {},
+    setBooksFavoriteActionSuccess: (state, action) => {
+      state.selectedBook = action.payload;
+    },
+    setBooksFavoriteActionFail: (state, action) => {
+      state.selectedBook = [];
+    },
   },
 });
 
@@ -50,10 +70,17 @@ export const {
   getBooksByIdAction,
   getBooksByIdActionFail,
   getBooksByIdActionSuccess,
+  getBookDetailAction,
+  getBookDetailActionFail,
+  getBookDetailActionSuccess,
+  setBooksFavoriteAction,
+  setBooksFavoriteActionFail,
+  setBooksFavoriteActionSuccess,
 } = books.actions;
 
-export const useBooksWithCategories = () => useSelector((state: any) => state.books.booksWithCategories);
-export const useBookList = () => useSelector((state: any) => state.books.bookListById);
-export const useBooksLoading = () => useSelector((state: any) => state.books.isDataLoading);
+export const useBooksWithCategories = () => useSelector((state) => state.books.booksWithCategories);
+export const useBookList = () => useSelector((state) => state.books.bookListById);
+export const useBooksLoading = () => useSelector((state) => state.books.isDataLoading);
+export const useSelectedBook = () => useSelector((state) => state.books.selectedBook);
 
 export default books.reducer;
