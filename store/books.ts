@@ -6,15 +6,18 @@ interface BookState {
   isDataLoading: boolean;
   booksWithCategories: IBooksWithCategories[];
   bookListById: [];
-  selectedBook: IBookDetail;
+  selectedBook: IBookDetail | null;
 }
 
 const initialState: BookState = {
   isDataLoading: false,
   booksWithCategories: [],
   bookListById: [],
-  selectedBook: undefined,
+  selectedBook: null,
 };
+interface bookStateProps {
+  books: BookState;
+}
 
 const books = createSlice({
   name: 'books',
@@ -51,14 +54,14 @@ const books = createSlice({
     },
     getBookDetailActionFail: (state, action) => {
       state.isDataLoading = false;
-      state.selectedBook = [];
+      state.selectedBook = null;
     },
     setBooksFavoriteAction: (state, action) => {},
     setBooksFavoriteActionSuccess: (state, action) => {
       state.selectedBook = action.payload;
     },
     setBooksFavoriteActionFail: (state, action) => {
-      state.selectedBook = [];
+      state.selectedBook = null;
     },
   },
 });
@@ -78,9 +81,9 @@ export const {
   setBooksFavoriteActionSuccess,
 } = books.actions;
 
-export const useBooksWithCategories = () => useSelector((state) => state.books.booksWithCategories);
-export const useBookList = () => useSelector((state) => state.books.bookListById);
-export const useBooksLoading = () => useSelector((state) => state.books.isDataLoading);
-export const useSelectedBook = () => useSelector((state) => state.books.selectedBook);
+export const useBooksWithCategories = () => useSelector((state: bookStateProps) => state.books.booksWithCategories);
+export const useBookList = () => useSelector((state: bookStateProps) => state.books.bookListById);
+export const useBooksLoading = () => useSelector((state: bookStateProps) => state.books.isDataLoading);
+export const useSelectedBook = () => useSelector((state: bookStateProps) => state.books.selectedBook);
 
 export default books.reducer;

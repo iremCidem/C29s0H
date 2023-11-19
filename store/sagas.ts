@@ -88,7 +88,7 @@ function* getBookDetailSaga(action: any) {
   try {
     const { category, slug } = action.payload;
     const response: AxiosResponse = yield call(() => getBooksByCategoryIdService(category));
-    const selectedBookDetail = response.data.product.find((book) => book.slug === slug);
+    const selectedBookDetail = response.data.product.find((book: any) => book.slug === slug);
     const book = { ...selectedBookDetail, isFavorite: false };
     yield put(getBookDetailActionSuccess(book));
   } catch (error) {
@@ -97,7 +97,7 @@ function* getBookDetailSaga(action: any) {
   }
 }
 
-function* setBookFavoriteSaga(action: any) {
+function* setBookFavoriteSaga(action: any): Generator<any, void, any> {
   try {
     const selectedBook = yield select((state) => state.books.selectedBook);
     const newSelectedBook = {

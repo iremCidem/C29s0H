@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { getLocalStorage, setLocalStorage, getSessionStorage } from '@/helpers';
+import { getLocalStorage, getSessionStorage } from '@/helpers';
 import { KEYS } from '@/constants';
 interface AuthState {
   isLoading: boolean;
-  token: string;
+  token?: string;
 }
 
 const initialState: AuthState = {
