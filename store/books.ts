@@ -5,7 +5,7 @@ import { IBooksWithCategories, IBookDetail } from '@/app/types';
 interface BookState {
   isDataLoading: boolean;
   booksWithCategories: IBooksWithCategories[];
-  bookListById: [];
+  bookListById: any;
   selectedBook: IBookDetail | null;
 }
 

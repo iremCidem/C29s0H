@@ -50,7 +50,7 @@ const BookDetail = () => {
   }, [selectedBook?.cover]);
 
   function addToFavorite() {
-    dispatch(setBooksFavoriteAction(selectedBook.isFavorite));
+    dispatch(setBooksFavoriteAction(selectedBook?.isFavorite));
   }
 
   if (isLoading) {
